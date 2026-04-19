@@ -1,6 +1,6 @@
 import streamlit as st
 from langchain_community.vectorstores import Chroma
-from langchain_community.embeddings import HuggingFaceEmbeddings
+embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 from langchain_text_splitters import CharacterTextSplitter
 
 
