@@ -1,8 +1,8 @@
 import streamlit as st
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
-embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-from langchain_text_splitters import CharacterTextSplitter
-
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+import os
 
 # 1. SETUP (App Title and Icon)
 st.set_page_config(page_title="PlantCare Assistant", page_icon="🌿")
@@ -33,9 +33,9 @@ c_overlap = st.sidebar.number_input("Chunk Overlap", min_value=0, max_value=200,
 st.sidebar.divider()
 st.sidebar.info("The system uses these values to process the knowledge base in real-time.")
 
+
 # 4. THE BRAIN
-text_splitter = CharacterTextSplitter(
-    separator=". ", 
+text_splitter = RecursiveCharacterTextSplitter(
     chunk_size=c_size, 
     chunk_overlap=c_overlap
 )
