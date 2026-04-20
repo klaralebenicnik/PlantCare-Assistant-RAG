@@ -27,16 +27,17 @@ top_k = st.sidebar.slider("Show top K results",1,5,3)
 
 # 4. THE BRAIN
 @st.cache_resource
+def load_embeddings():
+    return HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+
+@st.cache_resource
 def build_vectorstore(chunk_size, chunk_overlap):
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=chunk_size,
         chunk_overlap=chunk_overlap
     )
     docs = splitter.create_documents(DOCUMENTS)
-    embeddings = HuggingFaceEmbeddings(
-        model_name="all-MiniLM-L6-v2"
-    )
-    vectorstore = Chroma.from_documents(docs,embeddings)
+    vectorstore = Chroma.from_documents(docs, load_embeddings())
     return vectorstore, len(docs)
 
 with st.spinner("Building index..."):
